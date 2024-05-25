@@ -3,13 +3,13 @@ import * as path from 'path';
 import { Disposable } from './dispose';
 import { Font, FontEditor, TTF, woff2 } from 'fonteditor-core'
 import { inflate } from 'pako'
-export class TTFEditorProvider implements vscode.CustomReadonlyEditorProvider<TTFDocument>{
+export class TTFEditorProvider implements vscode.CustomReadonlyEditorProvider<TTFDocument> {
 
   static register(context: vscode.ExtensionContext): vscode.Disposable {
     return vscode.window.registerCustomEditorProvider("ttf.preview", new TTFEditorProvider(context), {
       supportsMultipleEditorsPerDocument: true,
       webviewOptions: {
-        retainContextWhenHidden: true
+        retainContextWhenHidden: true, enableFindWidget: true,
       }
     })
   }
@@ -51,7 +51,7 @@ export class TTFEditorProvider implements vscode.CustomReadonlyEditorProvider<TT
       //@ts-ignore
       const html = this.getHtmlForWebView(webviewPanel.webview, font.toBase64({ type: 'ttf' }, null));
       webviewPanel.webview.postMessage({ fontMeta: fontMeta })
-      webviewPanel.webview.html = html
+      webviewPanel.webview.html = html;
     } catch (e) {
       // console.log(e.message, e.number)
       // @ts-ignore
